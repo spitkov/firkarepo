@@ -141,9 +141,10 @@ jobs:
                 "downloadURL": $newver.downloadURL,
                 "appPermissions": {},
                 "screenshotURLs": [
-                  "https://github.com/spitkov/firkarepo/blob/main/1.PNG?raw=true,
-                  "https://github.com/spitkov/firkarepo/blob/main/2.PNG?raw=true,
-                  "https://github.com/spitkov/firkarepo/blob/main/3.PNG?raw=true
+                  "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/images/showcase1.png?raw=true",
+                  "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/images/showcase2.png?raw=true",
+                  "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/images/showcase3.png?raw=true",
+                  "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/images/showcase4.png?raw=true"
 
                 ]
               }]
