@@ -31,9 +31,10 @@
       "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa",
       "appPermissions": {},
       "screenshotURLs": [
-        "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/1.png",
-        "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/2.png",
-        "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/3.png"
+        "https://github.com/spitkov/firkarepo/blob/main/1.PNG?raw=true",
+        "https://github.com/spitkov/firkarepo/blob/main/2.PNG?raw=true",
+        "https://github.com/spitkov/firkarepo/blob/main/3.PNG?raw=true"
+
       ]
     }
   ]
