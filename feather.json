@@ -1,0 +1,40 @@
+{
+  "name": "Firka Repository",
+  "identifier": "app.firka.legacy-repo",
+  "iconURL": "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/icons/ic_android.png?raw=true",
+  "apps": [
+    {
+      "name": "Firka",
+      "bundleIdentifier": "app.firka.legacy",
+      "developerName": "QwIT-Development",
+      "iconURL": "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/icons/ic_android.png?raw=true",
+      "localizedDescription": "Egy alternatív e-KRÉTA app",
+      "subtitle": "Alternative e-KRÉTA client",
+      "tintColor": "018084",
+      "versions": [
+        {
+          "version": "v5.1.5patch1",
+          "date": "2025-03-02T13:39:53+0000",
+          "size": 36012441,
+          "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa"
+        },
+        {
+          "version": "v5.1.5",
+          "date": "2025-02-28T16:03:26+0000",
+          "size": 36012441,
+          "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5/firkaapp.ipa"
+        }
+      ],
+      "size": 36012441,
+      "version": "v5.1.5patch1",
+      "versionDate": "2025-03-02T13:39:53+0000",
+      "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa",
+      "appPermissions": {},
+      "screenshotURLs": [
+        "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/1.png",
+        "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/2.png",
+        "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/3.png"
+      ]
+    }
+  ]
+} 

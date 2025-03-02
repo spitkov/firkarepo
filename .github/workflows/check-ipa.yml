@@ -28,39 +28,62 @@ jobs:
           
           if [ -n "$IPA_ASSET" ]; then
             DOWNLOAD_URL=$(echo $IPA_ASSET | jq -r .browser_download_url)
-            SIZE=$(echo "scale=2; $(echo $IPA_ASSET | jq -r .size)/1048576" | bc)
+            SIZE=$(echo "scale=0; $(echo $IPA_ASSET | jq -r .size)" | bc)
+            SIZE_MB=$(echo "scale=2; $SIZE/1048576" | bc)
             VERSION_DATE=$(date -d "$PUBLISHED_AT" +"%Y-%m-%dT%H:%M:%S%z")
             
-            if [ ! -f apps.json ]; then
-              echo "is_new=true" >> $GITHUB_OUTPUT
+            ESIGN_VERSION="${TAG_NAME#v}"
+            FEATHER_VERSION="$TAG_NAME"
+            
+            IS_NEW_ESIGN=false
+            IS_NEW_FEATHER=false
+            
+            if [ ! -f esign.json ]; then
+              IS_NEW_ESIGN=true
             else
-              LATEST_VERSION=$(jq -r '.apps[0].version // empty' apps.json)
-              if [ "$TAG_NAME" != "$LATEST_VERSION" ]; then
-                echo "is_new=true" >> $GITHUB_OUTPUT
-              else
-                echo "is_new=false" >> $GITHUB_OUTPUT
+              LATEST_ESIGN_VERSION=$(jq -r '.apps[0].version // empty' esign.json)
+              if [ "$ESIGN_VERSION" != "$LATEST_ESIGN_VERSION" ]; then
+                IS_NEW_ESIGN=true
               fi
             fi
             
-            echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
-            echo "published=$VERSION_DATE" >> $GITHUB_OUTPUT
-            echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
-            echo "size=$SIZE" >> $GITHUB_OUTPUT
+            if [ ! -f feather.json ]; then
+              IS_NEW_FEATHER=true
+            else
+              LATEST_FEATHER_VERSION=$(jq -r '.apps[0].version // empty' feather.json)
+              if [ "$FEATHER_VERSION" != "$LATEST_FEATHER_VERSION" ]; then
+                IS_NEW_FEATHER=true
+              fi
+            fi
+            
+            if [ "$IS_NEW_ESIGN" = true ] || [ "$IS_NEW_FEATHER" = true ]; then
+              echo "is_new=true" >> $GITHUB_OUTPUT
+              echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
+              echo "esign_version=$ESIGN_VERSION" >> $GITHUB_OUTPUT
+              echo "feather_version=$FEATHER_VERSION" >> $GITHUB_OUTPUT
+              echo "published=$VERSION_DATE" >> $GITHUB_OUTPUT
+              echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
+              echo "size=$SIZE" >> $GITHUB_OUTPUT
+              echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+            else
+              echo "is_new=false" >> $GITHUB_OUTPUT
+            fi
           else
             echo "is_new=false" >> $GITHUB_OUTPUT
           fi
 
       - if: steps.check_releases.outputs.is_new == 'true'
         run: |
-          if [ ! -f apps.json ]; then
-            echo '{"name":"Firka","identifier":"app.firka.legacy","sourceURL":"https://git.spitkov.hu/spitkov/firkaipa","apps":[]}' > apps.json
+          # Update esign.json
+          if [ ! -f esign.json ]; then
+            echo '{"name":"Firka","identifier":"app.firka.legacy","sourceURL":"https://git.spitkov.hu/spitkov/firkaipa","apps":[]}' > esign.json
           fi
           
-          NEW_ENTRY=$(jq -n \
-            --arg tag "${{ steps.check_releases.outputs.tag }}" \
+          NEW_ESIGN_ENTRY=$(jq -n \
+            --arg tag "${{ steps.check_releases.outputs.esign_version }}" \
             --arg date "${{ steps.check_releases.outputs.published }}" \
             --arg url "${{ steps.check_releases.outputs.download_url }}" \
-            --arg size "${{ steps.check_releases.outputs.size }}" \
+            --arg size "${{ steps.check_releases.outputs.size_mb }}" \
             '{
               "name": "Firka",
               "bundleIdentifier": "app.firka.legacy",
@@ -77,11 +100,62 @@ jobs:
               "type": 1
             }')
           
-          echo "Adding new entry to apps.json"
-          jq --argjson new "$NEW_ENTRY" '.apps = [$new] + .apps' apps.json > apps.json.tmp && mv apps.json.tmp apps.json
+          jq --argjson new "$NEW_ESIGN_ENTRY" '.apps = [$new] + .apps' esign.json > esign.json.tmp && mv esign.json.tmp esign.json
+          
+          # Update feather.json
+          if [ ! -f feather.json ]; then
+            echo '{
+              "name": "Firka Repository",
+              "identifier": "app.firka.legacy-repo",
+              "iconURL": "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/icons/ic_android.png?raw=true",
+              "apps": []
+            }' > feather.json
+          fi
+          
+          NEW_VERSION=$(jq -n \
+            --arg version "${{ steps.check_releases.outputs.feather_version }}" \
+            --arg date "${{ steps.check_releases.outputs.published }}" \
+            --arg url "${{ steps.check_releases.outputs.download_url }}" \
+            --arg size "${{ steps.check_releases.outputs.size }}" \
+            '{
+              "version": $version,
+              "date": $date,
+              "size": ($size | tonumber),
+              "downloadURL": $url
+            }')
+          
+          jq --argjson newver "$NEW_VERSION" '
+            .apps = if (.apps | length) == 0 then
+              [{
+                "name": "Firka",
+                "bundleIdentifier": "app.firka.legacy",
+                "developerName": "QwIT-Development",
+                "iconURL": "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/icons/ic_android.png?raw=true",
+                "localizedDescription": "Egy alternatív e-KRÉTA app",
+                "subtitle": "Alternative e-KRÉTA client",
+                "tintColor": "018084",
+                "versions": [$newver],
+                "size": $newver.size,
+                "version": $newver.version,
+                "versionDate": $newver.date,
+                "downloadURL": $newver.downloadURL,
+                "appPermissions": {},
+                "screenshotURLs": [
+                  "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/1.png",
+                  "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/2.png",
+                  "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/3.png"
+                ]
+              }]
+            else
+              [.apps[0] | .versions = [$newver] + .versions | 
+                          .version = $newver.version |
+                          .versionDate = $newver.date |
+                          .downloadURL = $newver.downloadURL |
+                          .size = $newver.size]
+            end' feather.json > feather.json.tmp && mv feather.json.tmp feather.json
           
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add apps.json
-          git commit -m "Update apps.json with new IPA release ${{ steps.check_releases.outputs.tag }}"
+          git add esign.json feather.json
+          git commit -m "Update repos with new IPA release ${{ steps.check_releases.outputs.tag }}"
           git push
