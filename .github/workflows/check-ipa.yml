@@ -141,9 +141,10 @@ jobs:
                 "downloadURL": $newver.downloadURL,
                 "appPermissions": {},
                 "screenshotURLs": [
-                  "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/1.png",
-                  "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/2.png",
-                  "https://github.com/QwIT-Development/app-legacy/raw/master/screenshots/3.png"
+                  "https://github.com/spitkov/firkarepo/blob/main/1.PNG?raw=true,
+                  "https://github.com/spitkov/firkarepo/blob/main/2.PNG?raw=true,
+                  "https://github.com/spitkov/firkarepo/blob/main/3.PNG?raw=true
+
                 ]
               }]
             else
