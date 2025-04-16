@@ -19,6 +19,12 @@
           "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa"
         },
         {
+          "version": "v5.1.5patch1",
+          "date": "2025-03-02T13:39:53+0000",
+          "size": 36035277,
+          "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa"
+        },
+        {
           "version": "5.1.5orig",
           "date": "2025-02-28T16:03:26+0000",
           "size": 36012441,
@@ -26,7 +32,7 @@
         }
       ],
       "size": 36035277,
-      "version": "5.1.5",
+      "version": "v5.1.5patch1",
       "versionDate": "2025-03-02T13:39:53+0000",
       "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa",
       "appPermissions": {},
