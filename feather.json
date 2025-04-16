@@ -13,6 +13,12 @@
       "tintColor": "018084",
       "versions": [
         {
+          "version": "v5.1.5patch1",
+          "date": "2025-03-02T13:39:53+0000",
+          "size": 36035277,
+          "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa"
+        },
+        {
           "version": "5.1.5",
           "date": "2025-03-02T13:39:53+0000",
           "size": 36035277,
@@ -26,7 +32,7 @@
         }
       ],
       "size": 36035277,
-      "version": "5.1.5",
+      "version": "v5.1.5patch1",
       "versionDate": "2025-03-02T13:39:53+0000",
       "downloadURL": "https://github.com/QwIT-Development/app-legacy/releases/download/v5.1.5patch1/firkaapp.ipa",
       "appPermissions": {},
@@ -35,7 +41,6 @@
         "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/images/showcase2.png?raw=true",
         "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/images/showcase3.png?raw=true",
         "https://github.com/QwIT-Development/app-legacy/blob/master/refilc/assets/images/showcase4.png?raw=true"
-
       ]
     }
   ]
